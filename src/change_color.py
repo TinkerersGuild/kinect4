@@ -29,7 +29,7 @@ img_history = collections.deque(maxlen=PIC_AVG)
 found_circles = list()
 # Callback for the trackbars
 def nothing(x):
-	pass
+        pass
 
 
 cv2.createTrackbar('Hue', 'image', 0,180,nothing)
@@ -44,26 +44,26 @@ cv2.setTrackbarPos('Val', 'image', 109)
 cv2.setTrackbarPos('Val_hi', 'image', 255)
 
 while(cap.isOpened()):
-	ret, img = cap.read()
+        ret, img = cap.read()
 
-	if ret == True:
+        if ret == True:
                 compcount += 1
-		hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-		hue = cv2.getTrackbarPos('Hue', 'image')
+                hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+                hue = cv2.getTrackbarPos('Hue', 'image')
 
-		sat = cv2.getTrackbarPos('Sat', 'image')
-		sat_hi = cv2.getTrackbarPos('Sat_hi', 'image')
-		val = cv2.getTrackbarPos('Val', 'image')
-		val_hi = cv2.getTrackbarPos('Val_hi', 'image')
+                sat = cv2.getTrackbarPos('Sat', 'image')
+                sat_hi = cv2.getTrackbarPos('Sat_hi', 'image')
+                val = cv2.getTrackbarPos('Val', 'image')
+                val_hi = cv2.getTrackbarPos('Val_hi', 'image')
                 if hue == -1:
                     break
-		#print(" {} {} {} {} {}".format(hue, sat, sat_hi, val, val_hi))
-		lower = np.array([hue-10, sat, val])
-		upper = np.array([hue+10, sat_hi, val_hi ])
+                #print(" {} {} {} {} {}".format(hue, sat, sat_hi, val, val_hi))
+                lower = np.array([hue-10, sat, val])
+                upper = np.array([hue+10, sat_hi, val_hi ])
 
-		mask = cv2.inRange(hsv,lower,upper)
-		masksum = mask
-#		mask = cv2.GaussianBlur(mask, (5,5), 3)
+                mask = cv2.inRange(hsv,lower,upper)
+                masksum = mask
+#               mask = cv2.GaussianBlur(mask, (5,5), 3)
                 for i in img_history:
                    masksum = cv2.bitwise_or(masksum, i)
                 circles = cv2.HoughCircles(masksum, cv2.HOUGH_GRADIENT  , 1, 30, param1=100, param2=17, 
@@ -82,13 +82,13 @@ while(cap.isOpened()):
                 for i in found_circles:    
                     cv2.circle(img,(i[0],i[1]),13, (0,255,0),2)
 
-		cv2.imshow('image', img)
-		cv2.imshow('Mask', mask)
-		cv2.imshow('MaskComposite', mask2)
+                cv2.imshow('image', img)
+                cv2.imshow('Mask', mask)
+                cv2.imshow('MaskComposite', mask2)
                 img_history.append(mask)
 
-	if cv2.waitKey(1) & 0xFF == ord('q'):
-		break
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
 cap.release()
 cv2.destroyAllWindows()

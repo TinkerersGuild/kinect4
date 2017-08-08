@@ -67,7 +67,7 @@ while(cap.isOpened()):
                    masksum = cv2.bitwise_or(masksum, i)
                 circles = cv2.HoughCircles(masksum, cv2.HOUGH_GRADIENT  , 1, 30, param1=100, param2=17, 
                         minRadius=5, maxRadius=20)
-                if not circles == None:
+                if not circles is None:
                         dupe = 0
                         circles = np.uint16(np.around(circles))
                         for i in circles[0,:]:

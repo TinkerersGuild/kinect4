@@ -47,7 +47,6 @@ while(cap.isOpened()):
         ret, img = cap.read()
 
         if ret == True:
-                compcount += 1
                 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
                 hue = cv2.getTrackbarPos('Hue', 'image')
 
@@ -83,8 +82,7 @@ while(cap.isOpened()):
                     cv2.circle(img,(i[0],i[1]),13, (0,255,0),2)
 
                 cv2.imshow('image', img)
-                cv2.imshow('Mask', mask)
-                cv2.imshow('MaskComposite', mask2)
+                cv2.imshow('Maski(composite)', masksum)
                 img_history.append(mask)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):

@@ -4,10 +4,10 @@ import collections
 
 # how many pictures to average the circle detection over. HSV is very
 # jumpy, so we add this many images together 
-PIC_AVG = 10
+PIC_AVG = 100
 
 # Map colors to openCV H range
-#4_COLORS = {"RED":5, "YELLOW": 22.5}
+#4_COLORS = {"RED":(5,175) "YELLOW": (22.5,)}
 
 # Set up the camera for 800 x 600 
 cap = cv2.VideoCapture(0)
@@ -37,10 +37,10 @@ cv2.createTrackbar('Sat', 'image', 0,255,nothing)
 cv2.createTrackbar('Sat_hi', 'image', 0,255,nothing)
 cv2.createTrackbar('Val', 'image', 0,255,nothing)
 cv2.createTrackbar('Val_hi', 'image', 0,255,nothing)
-cv2.setTrackbarPos('Hue', 'image', 4)
-cv2.setTrackbarPos('Sat', 'image', 191)
-cv2.setTrackbarPos('Sat_hi', 'image', 255)
-cv2.setTrackbarPos('Val', 'image', 109)
+cv2.setTrackbarPos('Hue', 'image', 20)
+cv2.setTrackbarPos('Sat', 'image', 150)
+cv2.setTrackbarPos('Sat_hi', 'image', 240)
+cv2.setTrackbarPos('Val', 'image', 160)
 cv2.setTrackbarPos('Val_hi', 'image', 255)
 
 while(cap.isOpened()):
@@ -65,8 +65,9 @@ while(cap.isOpened()):
 #               mask = cv2.GaussianBlur(mask, (5,5), 3)
                 for i in img_history:
                    masksum = cv2.bitwise_or(masksum, i)
-                circles = cv2.HoughCircles(masksum, cv2.HOUGH_GRADIENT  , 1, 30, param1=100, param2=17, 
-                        minRadius=5, maxRadius=20)
+
+                circles = cv2.HoughCircles(cv2.bitwise_not(masksum), cv2.HOUGH_GRADIENT  , 1, 30, param1=200, param2=15, 
+                        minRadius=5, maxRadius=15)
                 if not circles is None:
                         dupe = 0
                         circles = np.uint16(np.around(circles))

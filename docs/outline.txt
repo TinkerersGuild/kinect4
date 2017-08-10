@@ -1,0 +1,6 @@
+The premise is fairly simple. A Connect 4 board has 6 rows of 7
+columns. It should be fairly trivial to detect the board and the holes
+with computer vision. It should then be possible to detect the "state"
+of a hole (red, yellow, empty) and reflect that in an LED matrix.
+
+

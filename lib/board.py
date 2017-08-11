@@ -20,8 +20,8 @@ class Board:
     row_count = 0
     col_count = 0
     tiles = list()
-    col_space = 5
-    row_space = 5
+    col_space = 25
+    row_space = 25
 
     def __init__(self,  colcount, rowcount):
         #given a fairly complete list of tiles, we should be able to
@@ -32,20 +32,26 @@ class Board:
         return (self.row_centres, self.col_centres,self.tiles)
 
     def set_tiles(self, tiles):
-        # We sort into rows - should get the top row firsti
-        sort_t = list(tiles)
-        print(sort_t)
-        c, r = zip(*list(tiles))
+        print("Found {} circles: ".format(len(tiles)))
         # We want to group by row, but there might be missing data. If
         # we get the first X, we should be able to see "gaps"
-        rows = list(r)
-        cols = list(c)
+        
+        cols = list()
+        rows = list()
+        rav = list()
+        cav = list()
+        for t in tiles:
+            cols.append(int(t[0]))
+            rows.append(int(t[1]))
         rows.sort()
-        self.row_centres.append(rows[0])
+        self.row_space = (rows[-1] - rows[0])/(self.row_count -1)
+        
         cols.sort()
-        self.col_centres.append(cols[0])
-        self.build_averages(rows,self.row_centres, self.row_space)
-        self.build_averages(cols,self.col_centres, self.col_space)
+        self.col_space = (cols[-1] - cols[0])/(self.col_count -1)
+        print(rows)
+        print(cols)
+        self.build_averages(rows, self.row_centres, self.row_space)
+        self.build_averages(cols, self.col_centres, self.col_space)
         print(self.row_centres)
         print(self.col_centres)
         self.build_tiles()
@@ -58,24 +64,16 @@ class Board:
             self.tiles.append(row)
 
     def build_averages(self, source, dest, spacing):
+        dest.append( source[0])
         index = 0
-
-        for val in source: 
-            dupe = 0
-            c = dest[index]
-            if abs(val - c) < spacing:
-                #print("Same column: {}, {} ".format(val, c)) 
-                    # It's in the same row/column, average the value
-                dupe = 1
-                dest[index] = (c + val)//2 
-            if (dupe == 0):
-                #print("New column centre: {}".format(val))
-                dest.append( val)
+        for i in source:
+            if abs(dest[index] - i) < spacing/2: 
+                dest[index] = int((dest[index] + i) / 2)
+            else:
+                print("{}, {}".format(index, dest[index]))
                 index += 1
+                dest.append(i)
 
-            
-        
-            
 
         
         

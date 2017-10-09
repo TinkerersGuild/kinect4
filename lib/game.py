@@ -11,6 +11,13 @@ class Game:
     def setTiles(self, tiles):
         #print(tiles)
         self.myboard.set_tiles(tiles)
+    def getTiles(self):
+        tiles = list()
+        rows,cols, vals = self.myboard.list_tiles()
+        for r in rows:
+            for c in cols:
+                tiles.append((c,r))
+        return tiles
     def showBoard(self):
         bprint = ""
         rcount = 0
